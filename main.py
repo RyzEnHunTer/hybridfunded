@@ -451,7 +451,7 @@ def main():
         elif choice == "5":
             try:
                 import json
-                presets_file = os.path.join(os.path.dirname(__file__), "prop_firm_presets.json")
+                presets_file = os.path.join(os.path.dirname(__file__), "config", "prop_firm_presets.json")
                 with open(presets_file, "r") as f:
                     presets = json.load(f)
                 
@@ -481,7 +481,7 @@ def main():
                     else: selected_phase = "LIVE"
                 
                 # Save to persistent state file
-                state_file = os.path.join(os.path.dirname(__file__), "active_firm_state.json")
+                state_file = os.path.join(os.path.dirname(__file__), "config", "active_firm_state.json")
                 with open(state_file, "w") as f:
                     json.dump({"ACTIVE_FIRM": selected_firm, "ACCOUNT_PHASE": selected_phase}, f)
                     
