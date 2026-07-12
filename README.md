@@ -68,7 +68,7 @@ hybrid_engine/
 
 2. **Install Dependencies:**
    ```bash
-   pip install MetaTrader5 pandas numpy scikit-learn xgboost flask
+   pip install -r requirements.txt
    ```
 
 3. **Run the Engine:**
