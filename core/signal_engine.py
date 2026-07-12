@@ -7,7 +7,7 @@ import sys
 
 # Add parent directory to path to import config
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from hybrid_engine.config.settings import VALID_TRADING_HOURS_UTC, NEWS_BLOCKS_UTC, MODEL_PATH, FEATURES_PATH, ASIAN_PAIRS, SNIPER_PAIRS
+from config.settings import VALID_TRADING_HOURS_UTC, NEWS_BLOCKS_UTC, MODEL_PATH, FEATURES_PATH, ASIAN_PAIRS, SNIPER_PAIRS
 
 ASIAN_MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "asian_brain.xgb")
 

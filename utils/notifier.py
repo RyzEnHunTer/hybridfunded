@@ -2,7 +2,7 @@ import requests
 import json
 import threading
 import logging
-from live_v2.account_manager import AccountManager
+from utils.account_manager import AccountManager
 
 logger = logging.getLogger("Notifier")
 

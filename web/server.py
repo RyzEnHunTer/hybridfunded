@@ -7,7 +7,7 @@ from threading import Thread
 import logging
 
 BASE_DIR = Path(__file__).parent.parent
-app = Flask(__name__, static_folder=str(BASE_DIR / "hybrid_engine" / "web" / "public"), static_url_path="/")
+app = Flask(__name__, static_folder=str(BASE_DIR / "web" / "public"), static_url_path="/")
 PORT = 5055
 
 @app.route("/")

@@ -13,8 +13,8 @@ from rich.text import Text
 from rich import print as rprint
 
 # Local imports
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from hybrid_engine.config.settings import (
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from config.settings import (
     ACTIVE_FIRM, 
     ACCOUNT_PHASE,
     SNIPER_PAIRS, 
@@ -31,16 +31,16 @@ from hybrid_engine.config.settings import (
     VALID_TRADING_HOURS_UTC
 )
 
-from hybrid_engine.core.data_engine import LiveDataEngine
-from hybrid_engine.core.signal_engine import LiveSignalEngine
-from hybrid_engine.core.trade_manager import TradeManager
-from hybrid_engine.core.news_engine import NewsEngine
+from core.data_engine import LiveDataEngine
+from core.signal_engine import LiveSignalEngine
+from core.trade_manager import TradeManager
+from core.news_engine import NewsEngine
 
-from hybrid_engine.utils.account_manager import AccountManager
-from hybrid_engine.utils.notifier import NotificationCenter
-from hybrid_engine.utils.state_exporter import export_state
+from utils.account_manager import AccountManager
+from utils.notifier import NotificationCenter
+from utils.state_exporter import export_state
 
-from hybrid_engine.web.server import start_dashboard_server
+from web.server import start_dashboard_server
 import logging
 
 # Setup File Logging
@@ -355,7 +355,7 @@ def main():
     notification_rules = acct_mgr.get_or_create_notifications()
     
     # Load dynamic config rules 
-    from hybrid_engine.config.settings import ACTIVE_FIRM, ACCOUNT_PHASE, PROFIT_TARGET_PCT, MAX_DAILY_DRAWDOWN_PERCENT, MAX_GLOBAL_DRAWDOWN_PERCENT
+    from config.settings import ACTIVE_FIRM, ACCOUNT_PHASE, PROFIT_TARGET_PCT, MAX_DAILY_DRAWDOWN_PERCENT, MAX_GLOBAL_DRAWDOWN_PERCENT
     
     if ACTIVE_FIRM == "CUSTOM_RULES":
         # Load from V1 accounts.json
