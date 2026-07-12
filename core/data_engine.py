@@ -1,6 +1,6 @@
 import MetaTrader5 as mt5
 import pandas as pd
-import pandas_ta as ta
+
 import numpy as np
 
 class LiveDataEngine:
@@ -58,12 +58,29 @@ class LiveDataEngine:
         rs_15 = gain_15 / loss_15
         df_15m['15m_rsi'] = 100 - (100 / (1 + rs_15))
         
-        # 15m Trend Strength (ADX)
-        adx = ta.adx(df_15m['high'], df_15m['low'], df_15m['close'], length=14)
-        if adx is not None and not adx.empty:
-            df_15m['15m_adx'] = adx['ADX_14']
-        else:
-            df_15m['15m_adx'] = 0.0
+        # 15m Trend Strength (ADX) - Pure Pandas Implementation
+        high, low, close = df_15m['high'], df_15m['low'], df_15m['close']
+        length = 14
+        
+        tr1 = high - low
+        tr2 = (high - close.shift()).abs()
+        tr3 = (low - close.shift()).abs()
+        tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+        
+        up_move = high - high.shift()
+        down_move = low.shift() - low
+        
+        pos_dm = np.where((up_move > down_move) & (up_move > 0), up_move, 0.0)
+        neg_dm = np.where((down_move > up_move) & (down_move > 0), down_move, 0.0)
+        
+        tr_ema = tr.ewm(alpha=1/length, adjust=False).mean()
+        pos_di = pd.Series(pos_dm, index=df_15m.index).ewm(alpha=1/length, adjust=False).mean() / tr_ema * 100
+        neg_di = pd.Series(neg_dm, index=df_15m.index).ewm(alpha=1/length, adjust=False).mean() / tr_ema * 100
+        
+        dx = (pos_di - neg_di).abs() / (pos_di + neg_di) * 100
+        adx = dx.ewm(alpha=1/length, adjust=False).mean()
+        
+        df_15m['15m_adx'] = adx.fillna(0.0)
         
         df_15m['tr0'] = abs(df_15m['high'] - df_15m['low'])
         df_15m['tr1'] = abs(df_15m['high'] - df_15m['close'].shift())
