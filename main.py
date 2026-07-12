@@ -26,7 +26,9 @@ from hybrid_engine.config.settings import (
     MAX_TRADES_PER_PAIR,
     PROFIT_TARGET_PCT,
     MAX_DAILY_DRAWDOWN_PERCENT,
-    MAX_GLOBAL_DRAWDOWN_PERCENT
+    MAX_GLOBAL_DRAWDOWN_PERCENT,
+    RECORDINGS_DIR,
+    VALID_TRADING_HOURS_UTC
 )
 
 from hybrid_engine.core.data_engine import LiveDataEngine
