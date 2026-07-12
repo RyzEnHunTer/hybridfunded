@@ -1,0 +1,158 @@
+{
+    "FTMO_STANDARD_2STEP": {
+        "PHASE_1": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 10.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "PHASE_2": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 5.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "LIVE": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": null,
+            "news_trading_allowed": false,
+            "weekend_holding_allowed": false,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        }
+    },
+    "FUNDEDNEXT_STELLAR_2STEP": {
+        "PHASE_1": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 8.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "PHASE_2": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 5.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "LIVE": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": null,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        }
+    },
+    "GFT_2STEP": {
+        "PHASE_1": {
+            "daily_dd_pct": 4.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 8.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "PHASE_2": {
+            "daily_dd_pct": 4.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 6.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "LIVE": {
+            "daily_dd_pct": 1.9,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": null,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": 1.0,
+            "consistency_rule_pct": 20.0
+        }
+    },
+    "PIPESTONE_1STEP": {
+        "PHASE_1": {
+            "daily_dd_pct": 4.0,
+            "max_dd_pct": 8.0,
+            "profit_target_pct": 10.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "LIVE": {
+            "daily_dd_pct": 4.0,
+            "max_dd_pct": 8.0,
+            "profit_target_pct": null,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        }
+    },
+    "FUNDING_PIPS_1STEP": {
+        "PHASE_1": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 10.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "LIVE": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": null,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        }
+    },
+    "ALPHA_CAPITAL_SWING": {
+        "PHASE_1": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 8.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "PHASE_2": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": 5.0,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        },
+        "LIVE": {
+            "daily_dd_pct": 5.0,
+            "max_dd_pct": 10.0,
+            "profit_target_pct": null,
+            "news_trading_allowed": true,
+            "weekend_holding_allowed": true,
+            "news_profit_cap_pct": null,
+            "consistency_rule_pct": null
+        }
+    }
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Live Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-area">
+                <div class="logo-orb"></div>
+                <div>
+                    <h1 class="logo-text">HUNTER</h1>
+                    <span class="logo-sub">PROP FIRM TRADING ENGINE</span>
+                </div>
+            </div>
+            <div class="status-area">
+                <div class="live-indicator">
+                    <span class="pulse-dot"></span> LIVE
+                </div>
+                <div class="phase-badge" id="phaseBadge">LOADING</div>
+            </div>
+        </header>
+
+        <!-- Metrics Grid -->
+        <section class="metrics-grid">
+            <div class="metric-card glass">
+                <div class="metric-label">Account Balance</div>
+                <div class="metric-value" id="valBalance">--</div>
+                <div class="metric-sub">Daily Trades: <span id="valDailyTrades">--</span>/<span id="valMaxDailyTrades">6</span></div>
+            </div>
+            <div class="metric-card glass">
+                <div class="metric-label">Total Realized P&L</div>
+                <div class="metric-value" id="valPnl">--</div>
+                <div class="metric-sub" id="valWinRate">Win Rate: --</div>
+            </div>
+            <div class="metric-card glass">
+                <div class="metric-label">Prop Firm Target</div>
+                <div class="metric-value highlight" id="valProgress">--</div>
+                <div class="metric-sub" id="valProfitLeft" style="margin-bottom: 8px;">Profit Left: --</div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="content-row">
+            <!-- Active Trades -->
+            <section class="active-trades-section glass panel">
+                <div class="panel-header">
+                    <h2>Active Positions</h2>
+                    <span class="badge" id="activeCount">0</span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Pair</th>
+                                <th>Type</th>
+                                <th>Entry</th>
+                                <th>Vol</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activeTradesBody">
+                            <tr>
+                                <td colspan="5" class="empty-state">No active trades. Scanning markets...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Trade History -->
+            <section class="history-section glass panel">
+                <div class="panel-header">
+                    <h2>Recent History</h2>
+                    <span class="badge" id="historyCount">0</span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Pair</th>
+                                <th>Result</th>
+                                <th>P&L</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Chart Row -->
+        <section class="chart-section glass panel">
+            <div class="panel-header">
+                <h2>Equity Curve (Realized)</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="equityChart"></canvas>
+            </div>
+        </section>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

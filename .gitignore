@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.log
+config/active_firm_state.json
+config/accounts.json
+data/
+bot_state_*.json

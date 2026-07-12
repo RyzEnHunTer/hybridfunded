@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Command Center</title>
+    <!-- Use Inter and Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- Feather Icons for sleek SVG icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <div class="layout-wrapper">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon"><i data-feather="box"></i></div>
+                <div class="logo-text">HUNTER <span class="logo-sub">AI</span></div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">NAVIGATION</div>
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <i data-feather="grid"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item">
+                        <i data-feather="bar-chart-2"></i>
+                        <span>Account Overview</span>
+                    </li>
+                    <li class="nav-item">
+                        <i data-feather="list"></i>
+                        <span>Order List</span>
+                    </li>
+                    <li class="nav-item">
+                        <i data-feather="settings"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">APPS</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <i data-feather="activity"></i>
+                        <span>ML Engine Status</span>
+                    </li>
+                    <li class="nav-item">
+                        <i data-feather="calendar"></i>
+                        <span>Economic Calendar</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-bottom">
+                <div class="nav-item">
+                    <i data-feather="moon"></i>
+                    <span>Dark Mode</span>
+                    <div class="toggle-switch active"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div class="search-bar">
+                    <i data-feather="search"></i>
+                    <input type="text" placeholder="Search pairs, orders...">
+                </div>
+                <div class="topbar-actions">
+                    <span id="botStatusBadge" class="badge pulsing" style="background: rgba(0,255,0,0.1); color: #00ff00; padding: 6px 12px; font-size: 0.8rem;">ONLINE</span>
+                    <div class="icon-btn"><i data-feather="bell"></i></div>
+                    <div class="account-selector" id="accountSelector">
+                        <span id="accountLabel">Hybrid Server</span>
+                        <i data-feather="chevron-down"></i>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="account-dropdown" id="accountDropdown">
+                            <div class="dropdown-header">
+                                <span class="dropdown-title">Active Connection</span>
+                                <span class="badge passed">LIVE</span>
+                            </div>
+                            <div class="dropdown-item">
+                                <span>Broker:</span>
+                                <span class="highlight">MetaQuotes-Demo</span>
+                            </div>
+                            <div class="dropdown-item">
+                                <span>Account ID:</span>
+                                <span class="highlight" id="dropdownAccId">Loading...</span>
+                            </div>
+                            <div class="dropdown-item">
+                                <span>Risk Profile:</span>
+                                <span id="dropdownFirmName">Hybrid (Day+Night)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+
+            <!-- VIEWS CONTAINER -->
+            <div id="view-dashboard" class="dashboard-scroll view-section active-view">
+                
+                <!-- TOP ROW: Chart & Loss Analysis -->
+                <div class="grid-row top-grid">
+                    
+                    <div class="panel chart-panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i data-feather="pie-chart"></i>
+                                <span>Balance</span>
+                                <span class="balance-val" id="valBalance">--</span>
+                            </div>
+                            <div class="time-filters">
+                                <span>1m</span><span>15m</span><span>1h</span><span>4h</span><span class="active">1d</span><span>1w</span><span>All</span>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <div class="chart-overlay" id="chartOverlay">
+                                <div class="radar-blip"></div>
+                                <div class="overlay-text">Waiting for Market Data...</div>
+                            </div>
+                            <canvas id="equityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="panel loss-panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i data-feather="alert-triangle"></i>
+                                <span>Account Loss Analysis</span>
+                            </div>
+                        </div>
+                        <div class="loss-content">
+                            <div class="loss-tabs">
+                                <div class="loss-tab active">Max Recorded</div>
+                                <div class="loss-tab">Current</div>
+                            </div>
+                            
+                            <div class="loss-item">
+                                <div class="loss-item-header">
+                                    <span>Total Drawdown Level</span>
+                                    <i data-feather="arrow-up-right"></i>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill red" id="totalDdFill" style="width: 0%"></div>
+                                </div>
+                                <div class="loss-item-footer">
+                                    <span>Limit: <span id="valTotalDdLimit">--</span></span>
+                                    <span>Current: <span id="valTotalDdCurrent">--</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="loss-item">
+                                <div class="loss-item-header">
+                                    <span>Daily Loss Limit Level</span>
+                                    <i data-feather="arrow-up-right"></i>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill cyan" id="dailyDdFill" style="width: 0%"></div>
+                                </div>
+                                <div class="loss-item-footer">
+                                    <span>Limit: <span id="valDailyDdLimit">--</span></span>
+                                    <span>Current: <span id="valDailyDdCurrent">--</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="reset-timer">
+                                Next Daily Loss Reset in <span class="timer-val">12:34:56</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- MIDDLE ROW: Stats -->
+                <div class="grid-row stats-grid">
+                    <div class="panel stat-card faint-grid">
+                        <div class="stat-header">
+                            <i data-feather="trending-up"></i>
+                            <span>Average Win</span>
+                        </div>
+                        <div class="stat-value" id="valAvgWin">--</div>
+                    </div>
+                    <div class="panel stat-card faint-grid">
+                        <div class="stat-header">
+                            <i data-feather="trending-down"></i>
+                            <span>Average Loss</span>
+                        </div>
+                        <div class="stat-value loss-val" id="valAvgLoss">--</div>
+                    </div>
+                    <div class="panel stat-card faint-grid">
+                        <div class="stat-header">
+                            <i data-feather="activity"></i>
+                            <span>Win Ratio (Hybrid)</span>
+                        </div>
+                        <div class="stat-value" id="valWinRatio">--</div>
+                        <div class="stat-sub">Sniper: <span id="valSniperWR">--</span> | Asian: <span id="valAsianWR">--</span></div>
+                    </div>
+                    <div class="panel stat-card faint-grid">
+                        <div class="stat-header">
+                            <i data-feather="target"></i>
+                            <span>Total Realized PnL</span>
+                        </div>
+                        <div class="stat-value" id="valTotalPnl">--</div>
+                        <div class="stat-sub" id="valBestPair">Best Pair: --</div>
+                    </div>
+                </div>
+                
+                <!-- BOTTOM ROW: Goals -->
+                <div class="panel goal-panel">
+                    <div class="panel-header" style="border: none; padding-bottom: 0;">
+                        <div class="panel-title">
+                            <i data-feather="check-square"></i>
+                            <span>Goal Overview</span>
+                        </div>
+                    </div>
+                    <div class="goal-grid">
+                        
+                        <div class="goal-card">
+                            <div class="goal-header">
+                                <span><i data-feather="sun"></i> Daily Trades</span>
+                                <span class="badge passed">Active</span>
+                            </div>
+                            <div class="goal-body">
+                                <div>
+                                    <div class="goal-label">Max Allowed</div>
+                                    <div class="goal-val" id="goalMaxTrades">--</div>
+                                </div>
+                                <div>
+                                    <div class="goal-label">Current Taken</div>
+                                    <div class="goal-val" id="goalCurrentTrades">--</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="goal-card target-card">
+                            <div class="goal-header">
+                                <span><i data-feather="dollar-sign"></i> Profit Target</span>
+                                <span class="badge pending">Pending</span>
+                            </div>
+                            <div class="goal-body">
+                                <div>
+                                    <div class="goal-label">Target Result</div>
+                                    <div class="goal-val" id="goalTarget">--</div>
+                                </div>
+                                <div>
+                                    <div class="goal-label">Current Result</div>
+                                    <div class="goal-val highlight-cyan" id="goalCurrent">--</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="goal-card phase-card">
+                            <div class="goal-header">
+                                <span><i data-feather="shield"></i> Phase Status</span>
+                                <span class="badge passed pulsing" id="goalPhase">--</span>
+                            </div>
+                            <div class="goal-body">
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="goal-label">AI Engine Status</div>
+                                    <div class="goal-val" style="font-size: 1.1rem; margin-top: 10px;">Sniper + Asian Live</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- NEWS ROW -->
+                <div class="grid-row" style="margin-bottom: 24px;">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">Economic Calendar <span class="count-badge" id="newsCount">0</span></div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Time (UTC)</th>
+                                        <th>Currency</th>
+                                        <th>Impact</th>
+                                        <th>Event Title</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="newsCalendarBody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LEDGER ROW -->
+                <div class="grid-row ledger-grid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">Active Positions <span class="count-badge" id="activeCount">0</span></div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Pair</th>
+                                        <th>Strategy</th>
+                                        <th>Type</th>
+                                        <th>Entry</th>
+                                        <th>Vol</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activeTradesBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">Trade Ledger <span class="count-badge" id="historyCount">0</span></div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Pair</th>
+                                        <th>Strategy</th>
+                                        <th>Result</th>
+                                        <th>P&L</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- END DASHBOARD VIEW -->
+            
+            <div id="view-account" class="dashboard-scroll view-section" style="display: none;">
+                <div class="grid-row top-grid">
+                    <div class="panel" style="flex: 1;">
+                        <div class="panel-header"><h2>Pair Distribution Analytics</h2></div>
+                        <div class="empty-state">Pie chart and bar charts analyzing best pairs.</div>
+                    </div>
+                    <div class="panel" style="flex: 1;">
+                        <div class="panel-header"><h2>Strategy Performance</h2></div>
+                        <div class="empty-state">Sniper vs Asian deep comparison metrics.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="view-orders" class="dashboard-scroll view-section" style="display: none;">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">Full Trade Ledger (All History) <span class="count-badge" id="fullHistoryCount">0</span></div>
+                    </div>
+                    <div class="table-wrapper" style="max-height: 600px;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Pair</th>
+                                    <th>Strategy</th>
+                                    <th>Entry Time</th>
+                                    <th>Exit Time</th>
+                                    <th>Volume</th>
+                                    <th>P&L</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fullHistoryBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="view-settings" class="dashboard-scroll view-section" style="display: none;">
+                <div class="grid-row top-grid">
+                    <div class="panel" style="flex: 1;">
+                        <div class="panel-header"><h2>Risk Parameters</h2></div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="color: var(--text-muted); font-size: 0.9rem;">Sniper Base Risk (%)</label>
+                            <input type="text" value="1.0" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); color: #fff; border-radius: 8px; margin-top: 8px;" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: var(--text-muted); font-size: 0.9rem;">Asian Dynamic Risk Bounds (%)</label>
+                            <input type="text" value="0.5 - 1.0" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); color: #fff; border-radius: 8px; margin-top: 8px;" disabled>
+                        </div>
+                    </div>
+                    <div class="panel" style="flex: 1;">
+                        <div class="panel-header"><h2>Account Constraints</h2></div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="color: var(--text-muted); font-size: 0.9rem;">Daily Drawdown Limit (%)</label>
+                            <input type="text" id="settingDailyDd" value="5.0" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); color: #fff; border-radius: 8px; margin-top: 8px;" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: var(--text-muted); font-size: 0.9rem;">Max Global Drawdown (%)</label>
+                            <input type="text" id="settingGlobalDd" value="10.0" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); color: #fff; border-radius: 8px; margin-top: 8px;" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="view-ml-engine" class="dashboard-scroll view-section" style="display: none;">
+                <div class="panel" style="border: 1px solid var(--accent-cyan);">
+                    <div class="panel-header">
+                        <div class="panel-title" style="color: var(--accent-cyan);"><i data-feather="activity"></i> ML Engine Live Terminal</div>
+                        <span class="badge passed" style="animation: pulse 2s infinite;">ONLINE</span>
+                    </div>
+                    <div style="background: #000; padding: 20px; border-radius: 8px; font-family: monospace; color: #00e5ff; font-size: 0.9rem;">
+                        <p>> [SYSTEM] Booting Hybrid Machine Learning Core...</p>
+                        <p>> [SNIPER] XGBoost Model V2 Loaded.</p>
+                        <p>> [ASIAN] XGBoost Model V1 Loaded.</p>
+                        <p>> [DATA] Listening to tick data stream...</p>
+                        <p>> [FILTER] 15M ADX > 30 filter ACTIVE.</p>
+                        <p class="blink">_</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-calendar" class="dashboard-scroll view-section" style="display: none;">
+                <div class="panel">
+                    <div class="panel-header"><h2>Economic Calendar</h2></div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Currency</th>
+                                    <th>Impact</th>
+                                    <th>Event</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fullNewsCalendarBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+    
+    <script>
+        feather.replace(); // Initialize SVG Icons
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
