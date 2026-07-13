@@ -807,6 +807,10 @@ def main():
                                 "time_created": now_utc,
                                 "signal": result
                             }
+                        else:
+                            reason = result.get("rejection_reason", "No Setup")
+                            logger.info(f"[{pair}] ❌ Rejected: {reason}")
+
                             
                         if active_signals[pair]:
                             time_since_creation = (now_utc - active_signals[pair]['time_created']).total_seconds()

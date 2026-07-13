@@ -49,7 +49,8 @@ class LiveSignalEngine:
             "fvg_size": 0.0,
             "rr": 0.0,
             "ml_features": {},
-            "ml_prob": 0.0
+            "ml_prob": 0.0,
+            "rejection_reason": "Waiting for Killzone"
         }
 
         hour = latest['time'].hour
@@ -70,10 +71,12 @@ class LiveSignalEngine:
             adx = latest.get('15m_adx', 0)
             
             if pd.isna(bb_upper) or pd.isna(rsi):
+                result["rejection_reason"] = "Waiting for data"
                 return result
                 
             # TREND FILTER: Do not trade mean reversion if ADX is showing a strong trend (>30)
             if adx > 30:
+                result["rejection_reason"] = "Trend too strong (ADX>30)"
                 return result
                 
             signal = 0
@@ -123,19 +126,23 @@ class LiveSignalEngine:
         # Killzones
         if day_of_week == 4:
             if hour not in [7, 8]: # London Only filter for Friday
+                result["rejection_reason"] = "Outside Friday London Killzone"
                 return result
         elif hour not in VALID_TRADING_HOURS_UTC:
+            result["rejection_reason"] = "Outside UTC Killzone"
             return result
             
         # Static News Filter
         for block in NEWS_BLOCKS_UTC:
             if hour == block["hour"] and (block["min_start"] <= minute <= block["min_end"]):
+                result["rejection_reason"] = "News Blocked"
                 return result
                 
         # Liquidity Sweep
         asia_high = latest.get('asia_high')
         asia_low = latest.get('asia_low')
         if pd.isna(asia_high) or pd.isna(asia_low):
+            result["rejection_reason"] = "Waiting for Asia session data"
             return result
             
         recent_low = latest.get('rolling_60_low', 0)
@@ -155,8 +162,10 @@ class LiveSignalEngine:
         
         # LONG SETUP
         if is_bullish_15m and swept_bullish_liq:
+            result["rejection_reason"] = "Waiting for MSS (Bullish)"
             last_swing_high = prev.get('1m_last_swing_high', 100000)
             if current_close > last_swing_high:
+                result["rejection_reason"] = "Waiting for FVG formation (Bullish)"
                 if prev.get('1m_fvg_up', False):
                     entry_price = prev['1m_fvg_top']
                     stop_loss = prev['1m_fvg_bottom']
@@ -195,8 +204,10 @@ class LiveSignalEngine:
 
         # SHORT SETUP
         if is_bearish_15m and swept_bearish_liq:
+            result["rejection_reason"] = "Waiting for MSS (Bearish)"
             last_swing_low = prev.get('1m_last_swing_low', 0)
             if current_close < last_swing_low:
+                result["rejection_reason"] = "Waiting for FVG formation (Bearish)"
                 if prev.get('1m_fvg_down', False):
                     entry_price = prev['1m_fvg_bottom']
                     stop_loss = prev['1m_fvg_top']
