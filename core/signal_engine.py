@@ -148,8 +148,8 @@ class LiveSignalEngine:
         recent_low = latest.get('rolling_60_low', 0)
         recent_high = latest.get('rolling_60_high', 100000)
         
-        swept_bullish_liq = True # Aggressive Mode: Ignoring Asian Sweep
-        swept_bearish_liq = True # Aggressive Mode: Ignoring Asian Sweep
+        swept_bullish_liq = recent_low < asia_low
+        swept_bearish_liq = recent_high > asia_high
         
         is_bullish_15m = latest.get('15m_bias_bullish', False)
         is_bearish_15m = not is_bullish_15m
@@ -173,11 +173,11 @@ class LiveSignalEngine:
                     if "JPY" in pair: sl_pips_check = sl_pips * 100
                     else: sl_pips_check = sl_pips * 10000
                     
-                    if sl_pips_check > 1.5: # Aggressive Mode: Lowered from 3.0
-                        take_profit = entry_price + (sl_pips * 3) # Aggressive Mode: TP = 1.5 RR 
+                    if sl_pips_check > 3.0:
+                        take_profit = entry_price + (sl_pips * 4) 
                         rr = (take_profit - entry_price) / (entry_price - stop_loss)
                         
-                        if rr >= 1.5: # Aggressive Mode: Lowered from 2.0
+                        if rr >= 2.0:
                             result["signal"] = 1
                             result["stop_loss"] = stop_loss
                             result["take_profit"] = take_profit
@@ -215,11 +215,11 @@ class LiveSignalEngine:
                     if "JPY" in pair: sl_pips_check = sl_pips * 100
                     else: sl_pips_check = sl_pips * 10000
                     
-                    if sl_pips_check > 1.5: # Aggressive Mode: Lowered from 3.0
-                        take_profit = entry_price - (sl_pips * 3) # Aggressive Mode: TP = 1.5 RR
+                    if sl_pips_check > 3.0:
+                        take_profit = entry_price - (sl_pips * 4)
                         rr = (entry_price - take_profit) / (stop_loss - entry_price)
                         
-                        if rr >= 1.5: # Aggressive Mode: Lowered from 2.0
+                        if rr >= 2.0:
                             result["signal"] = -1
                             result["stop_loss"] = stop_loss
                             result["take_profit"] = take_profit

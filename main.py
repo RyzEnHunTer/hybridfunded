@@ -779,16 +779,6 @@ def main():
                                         risk_override = risk_override / (current_active_trades + 1)
                                         logger.info(f"[{pair}] Equity Protection: Reduced Asian risk to {risk_override:.2f}% because {current_active_trades} trades are already running.")
                                 
-                                elif result['strategy'] == "SNIPER":
-                                    # Aggressive Mode Control: Hard cap risk at 0.50% to limit drawdown
-                                    risk_override = 0.50
-                                    
-                                    # Further equity protection if multiple trades are running
-                                    current_active_trades = get_active_trade_count()
-                                    if current_active_trades > 0:
-                                        risk_override = risk_override / (current_active_trades + 1)
-                                        logger.info(f"[{pair}] Equity Protection: Reduced Sniper risk to {risk_override:.2f}% because {current_active_trades} trades are already running.")
-                                
                                 trade_manager.place_limit_order(
                                     symbol=pair,
                                     direction=result["signal"],
