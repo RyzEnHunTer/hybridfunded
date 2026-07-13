@@ -44,7 +44,7 @@ from web.server import start_dashboard_server
 import logging
 
 # Setup File Logging
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 log_dir = os.path.join(BASE_DIR, "logs")
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)

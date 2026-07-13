@@ -84,9 +84,8 @@ NEWS_BLOCKS_UTC = [
 
 # 5. ML Model Paths
 import os
-LIVE_V2_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(LIVE_V2_DIR)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MODEL_PATH = os.path.join(LIVE_V2_DIR, "models", "mtf_classifier.pkl")
-FEATURES_PATH = os.path.join(LIVE_V2_DIR, "models", "mtf_features.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "models", "mtf_classifier.pkl")
+FEATURES_PATH = os.path.join(BASE_DIR, "models", "mtf_features.pkl")
 RECORDINGS_DIR = os.path.join(BASE_DIR, "data", "live_recordings")
